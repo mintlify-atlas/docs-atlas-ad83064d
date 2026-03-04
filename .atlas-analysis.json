@@ -1,0 +1,165 @@
+{
+  "projectType": "general",
+  "projectName": "AI System Prompts Collection",
+  "projectDescription": "Comprehensive collection of system prompts, tools, and AI model configurations from 30+ AI coding assistants and development tools.",
+  "theme": "sequoia",
+  "primaryColor": "#8B5CF6",
+  "lightColor": "#A78BFA",
+  "darkColor": "#7C3AED",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Overview",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "introduction",
+              "how-to-use",
+              "contributing"
+            ]
+          },
+          {
+            "group": "About",
+            "pages": [
+              "security-notice",
+              "support"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Commercial Tools",
+        "groups": [
+          {
+            "group": "AI Coding Assistants",
+            "pages": [
+              "commercial/cursor",
+              "commercial/windsurf",
+              "commercial/devin",
+              "commercial/replit",
+              "commercial/augment-code"
+            ]
+          },
+          {
+            "group": "AI Development Platforms",
+            "pages": [
+              "commercial/lovable",
+              "commercial/v0",
+              "commercial/leap",
+              "commercial/same-dev",
+              "commercial/poke"
+            ]
+          },
+          {
+            "group": "Anthropic Tools",
+            "pages": [
+              "commercial/claude-code",
+              "commercial/claude-chrome"
+            ]
+          },
+          {
+            "group": "Other Commercial",
+            "pages": [
+              "commercial/cluely",
+              "commercial/codebuddy",
+              "commercial/comet",
+              "commercial/junie",
+              "commercial/kiro",
+              "commercial/manus",
+              "commercial/notion-ai",
+              "commercial/orchids",
+              "commercial/perplexity",
+              "commercial/qoder",
+              "commercial/trae",
+              "commercial/traycer",
+              "commercial/vscode-agent",
+              "commercial/warp",
+              "commercial/xcode",
+              "commercial/z-ai",
+              "commercial/dia",
+              "commercial/amp",
+              "commercial/emergent"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Open Source",
+        "groups": [
+          {
+            "group": "Open Source Tools",
+            "pages": [
+              "open-source/bolt",
+              "open-source/cline",
+              "open-source/roocode",
+              "open-source/lumo",
+              "open-source/codex-cli",
+              "open-source/gemini-cli"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "AI Providers",
+        "groups": [
+          {
+            "group": "Anthropic",
+            "pages": [
+              "providers/anthropic/overview",
+              "providers/anthropic/sonnet-4-5"
+            ]
+          },
+          {
+            "group": "Google",
+            "pages": [
+              "providers/google/antigravity"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "Tool Capabilities",
+            "pages": [
+              "reference/system-prompts",
+              "reference/tool-definitions",
+              "reference/ai-models"
+            ]
+          },
+          {
+            "group": "Comparisons",
+            "pages": [
+              "reference/prompt-comparison",
+              "reference/tool-comparison"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "System prompts from 30+ AI coding assistants",
+    "Tool and function definitions in JSON format",
+    "AI model configurations and parameters",
+    "Both commercial and open-source tools covered",
+    "Regular updates with latest versions",
+    "Security insights and best practices"
+  ],
+  "publicApiSurface": [
+    "Cursor AI - Agent Prompt 2.0, Chat Prompt, Tools v1.0",
+    "Claude Code - System Prompt, Tools",
+    "Windsurf - Wave 11 Prompt & Tools",
+    "Devin AI - DeepWiki & Standard Prompts",
+    "Lovable - Agent Prompt & Tools",
+    "Replit - System Prompt & Tools",
+    "v0 - Prompts & Tools",
+    "Augment Code - Claude 4 & GPT-5 Agent Prompts",
+    "Cluely - Default & Enterprise Prompts",
+    "Bolt, Cline, RooCode - Open Source Prompts",
+    "Anthropic - Sonnet 4.5 Prompt",
+    "Google - Antigravity Prompts"
+  ]
+}
