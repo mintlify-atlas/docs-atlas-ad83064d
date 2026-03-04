@@ -127,7 +127,8 @@
           {
             "group": "Google",
             "pages": [
-              "providers/google/antigravity"
+              "providers/google/antigravity",
+              "providers/google/gemini-ai-studio"
             ]
           }
         ]
