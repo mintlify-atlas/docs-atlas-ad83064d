@@ -1,122 +1,157 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "AI System Prompts Collection",
+  "theme": "sequoia",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#8B5CF6",
+    "light": "#A78BFA",
+    "dark": "#7C3AED"
   },
-  "favicon": "/favicon.svg",
+  "navbar": {
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+      "discord": "https://discord.gg/NwzrWErdMU",
+      "x": "https://x.com/NotLucknite"
+    }
+  },
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Overview",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Getting Started",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "introduction",
+              "how-to-use",
+              "contributing"
             ]
           },
           {
-            "group": "Customization",
+            "group": "About",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "security-notice",
+              "support"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "Commercial Tools",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "AI Coding Assistants",
             "pages": [
-              "api-reference/introduction"
+              "commercial/cursor",
+              "commercial/windsurf",
+              "commercial/devin",
+              "commercial/replit",
+              "commercial/augment-code"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "AI Development Platforms",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "commercial/lovable",
+              "commercial/v0",
+              "commercial/leap",
+              "commercial/same-dev",
+              "commercial/poke"
+            ]
+          },
+          {
+            "group": "Anthropic Tools",
+            "pages": [
+              "commercial/claude-code",
+              "commercial/claude-chrome"
+            ]
+          },
+          {
+            "group": "Other Commercial",
+            "pages": [
+              "commercial/cluely",
+              "commercial/codebuddy",
+              "commercial/comet",
+              "commercial/junie",
+              "commercial/kiro",
+              "commercial/manus",
+              "commercial/notion-ai",
+              "commercial/orchids",
+              "commercial/perplexity",
+              "commercial/qoder",
+              "commercial/trae",
+              "commercial/traycer",
+              "commercial/vscode-agent",
+              "commercial/warp",
+              "commercial/xcode",
+              "commercial/z-ai",
+              "commercial/dia",
+              "commercial/amp",
+              "commercial/emergent"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Open Source",
+        "groups": [
+          {
+            "group": "Open Source Tools",
+            "pages": [
+              "open-source/bolt",
+              "open-source/cline",
+              "open-source/roocode",
+              "open-source/lumo",
+              "open-source/codex-cli",
+              "open-source/gemini-cli"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "AI Providers",
+        "groups": [
+          {
+            "group": "Anthropic",
+            "pages": [
+              "providers/anthropic/overview",
+              "providers/anthropic/sonnet-4-5"
+            ]
+          },
+          {
+            "group": "Google",
+            "pages": [
+              "providers/google/antigravity"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "Tool Capabilities",
+            "pages": [
+              "reference/system-prompts",
+              "reference/tool-definitions",
+              "reference/ai-models"
+            ]
+          },
+          {
+            "group": "Comparisons",
+            "pages": [
+              "reference/prompt-comparison",
+              "reference/tool-comparison"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+    ]
   }
 }

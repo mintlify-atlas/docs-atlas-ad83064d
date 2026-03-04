@@ -1,0 +1,385 @@
+---
+title: Understanding Tool Definitions
+description: JSON schemas that define tools available to AI coding assistants
+---
+
+# Understanding Tool Definitions
+
+Tool definitions are JSON schemas that specify the functions and capabilities available to AI coding assistants. They define what actions an assistant can take and how to invoke them.
+
+## What is a Tool Definition?
+
+A tool definition is a structured JSON object that describes:
+
+- **Name**: The identifier used to invoke the tool
+- **Description**: What the tool does and when to use it
+- **Parameters**: Input schema with types and validation rules
+- **Examples**: Usage patterns and best practices
+
+## Basic Structure
+
+Here's a typical tool definition structure:
+
+```json
+{
+  "name": "read_file",
+  "description": "Reads a file from the local filesystem.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "target_file": {
+        "type": "string",
+        "description": "The path of the file to read"
+      },
+      "offset": {
+        "type": "integer",
+        "description": "Line number to start reading from"
+      },
+      "limit": {
+        "type": "integer",
+        "description": "Number of lines to read"
+      }
+    },
+    "required": ["target_file"]
+  }
+}
+```
+
+## Common Tool Categories
+
+<AccordionGroup>
+  <Accordion title="File System Operations">
+    Tools for reading, writing, and manipulating files:
+    
+    ```json
+    {
+      "name": "Read",
+      "description": "Reads a file from the local filesystem",
+      "parameters": {
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "description": "Absolute path to the file"
+          },
+          "offset": {"type": "number"},
+          "limit": {"type": "number"}
+        },
+        "required": ["file_path"]
+      }
+    }
+    ```
+    
+    Key features:
+    - Absolute path requirements
+    - Optional pagination (offset/limit)
+    - Line number formatting
+  </Accordion>
+
+  <Accordion title="Code Search & Discovery">
+    Tools for finding and understanding code:
+    
+    ```json
+    {
+      "name": "codebase_search",
+      "description": "Semantic search that finds code by meaning",
+      "parameters": {
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Natural language question"
+          },
+          "target_directories": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Directories to search"
+          }
+        },
+        "required": ["query"]
+      }
+    }
+    ```
+    
+    Capabilities:
+    - Semantic understanding
+    - Directory scoping
+    - Context-aware results
+  </Accordion>
+
+  <Accordion title="Terminal & Execution">
+    Tools for running commands:
+    
+    ```json
+    {
+      "name": "run_terminal_cmd",
+      "description": "Execute shell commands",
+      "parameters": {
+        "properties": {
+          "command": {"type": "string"},
+          "is_background": {"type": "boolean"},
+          "explanation": {"type": "string"}
+        },
+        "required": ["command", "is_background"]
+      }
+    }
+    ```
+    
+    Features:
+    - Background execution support
+    - Working directory context
+    - Output capture and streaming
+  </Accordion>
+
+  <Accordion title="Code Editing">
+    Tools for modifying files:
+    
+    ```json
+    {
+      "name": "edit_file",
+      "description": "Edit existing files with precise replacements",
+      "parameters": {
+        "properties": {
+          "target_file": {"type": "string"},
+          "old_string": {"type": "string"},
+          "new_string": {"type": "string"}
+        },
+        "required": ["target_file", "old_string", "new_string"]
+      }
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Real-World Examples
+
+### Cursor Agent Tools
+
+<Tabs>
+  <Tab title="Grep Search">
+    ```json
+    {
+      "name": "grep",
+      "description": "A powerful search tool built on ripgrep",
+      "parameters": {
+        "properties": {
+          "pattern": {
+            "type": "string",
+            "description": "Regular expression pattern"
+          },
+          "output_mode": {
+            "type": "string",
+            "enum": ["content", "files_with_matches", "count"]
+          },
+          "glob": {
+            "type": "string",
+            "description": "File pattern (e.g. *.js)"
+          }
+        },
+        "required": ["pattern"]
+      }
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Web Search">
+    ```json
+    {
+      "name": "web_search",
+      "description": "Search the web for real-time information",
+      "parameters": {
+        "properties": {
+          "search_term": {
+            "type": "string",
+            "description": "Query with relevant keywords"
+          },
+          "explanation": {
+            "type": "string",
+            "description": "Why this search is needed"
+          }
+        },
+        "required": ["search_term"]
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Claude Code Tools
+
+```json
+{
+  "name": "Edit",
+  "description": "Performs exact string replacements in files",
+  "parameters": {
+    "properties": {
+      "file_path": {"type": "string"},
+      "old_string": {"type": "string"},
+      "new_string": {"type": "string"},
+      "replace_all": {"type": "boolean", "default": false}
+    },
+    "required": ["file_path", "old_string", "new_string"]
+  }
+}
+```
+
+**Key Features:**
+- Must read file before editing
+- Exact string matching required
+- Optional replace_all for multiple instances
+- Preserves exact indentation
+
+## Advanced Features
+
+### Validation and Constraints
+
+```json
+{
+  "parameters": {
+    "properties": {
+      "todos": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "content": {"type": "string", "minLength": 1},
+            "status": {
+              "type": "string",
+              "enum": ["pending", "in_progress", "completed"]
+            }
+          },
+          "required": ["content", "status"]
+        },
+        "minItems": 2
+      }
+    }
+  }
+}
+```
+
+### Conditional Parameters
+
+```json
+{
+  "description": "Read file with optional pagination",
+  "parameters": {
+    "properties": {
+      "should_read_entire_file": {"type": "boolean"},
+      "start_line": {
+        "type": "integer",
+        "description": "Required if should_read_entire_file is false"
+      }
+    }
+  }
+}
+```
+
+## Tool Description Best Practices
+
+Effective tool descriptions include:
+
+<CardGroup cols={2}>
+  <Card title="When to Use" icon="circle-check">
+    Clear guidelines on appropriate use cases
+    
+    ```txt
+    Use codebase_search when you need to:
+    - Explore unfamiliar codebases
+    - Find code by meaning rather than text
+    ```
+  </Card>
+  
+  <Card title="When NOT to Use" icon="circle-xmark">
+    Explicit anti-patterns
+    
+    ```txt
+    Skip codebase_search for:
+    - Exact text matches (use grep)
+    - Reading known files (use read_file)
+    ```
+  </Card>
+  
+  <Card title="Usage Examples" icon="code">
+    Concrete examples with explanations
+    
+    ```txt
+    Query: "Where is MyInterface implemented?"
+    Good: Specific question with context
+    ```
+  </Card>
+  
+  <Card title="Technical Details" icon="gear">
+    Important constraints and behaviors
+    
+    ```txt
+    - Output capped at 50 matches
+    - Results sorted by modification time
+    - Respects .gitignore rules
+    ```
+  </Card>
+</CardGroup>
+
+## Parameter Patterns
+
+### Explanation Parameters
+
+Many tools require brief explanations:
+
+```json
+{
+  "explanation": {
+    "type": "string",
+    "description": "One sentence explaining why this tool is being used"
+  }
+}
+```
+
+This helps with:
+- Debugging tool usage
+- Understanding agent reasoning
+- Audit trails
+
+### Path Specifications
+
+```json
+{
+  "file_path": {
+    "type": "string",
+    "description": "The absolute path to the file (must be absolute, not relative)"
+  }
+}
+```
+
+Common requirements:
+- Always absolute paths
+- No relative paths like `../file.txt`
+- Platform-specific separators
+
+## Schema Validation
+
+Tool schemas often use JSON Schema draft-07 or later:
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {...},
+  "required": [...],
+  "additionalProperties": false
+}
+```
+
+<Warning>
+The `additionalProperties: false` constraint means the AI cannot pass unexpected parameters, helping catch errors early.
+</Warning>
+
+## Comparing Tool Approaches
+
+| Aspect | Cursor | Claude Code | Augment |
+|--------|--------|-------------|----------|
+| **Edit Style** | Sketch-based with `// ... existing code ...` | Exact string replacement | String replacement with line numbers |
+| **Search** | Semantic + grep + file search | Grep + glob + Task agent | Codebase retrieval + git history |
+| **Execution** | Terminal commands with background support | Bash with working directory | Process management with terminals |
+| **File Ops** | Read with pagination | Read with offset/limit | View with regex search |
+
+<Note>
+Tool definitions evolve based on usage patterns and user feedback. Always refer to the latest schema for accurate implementation details.
+</Note>

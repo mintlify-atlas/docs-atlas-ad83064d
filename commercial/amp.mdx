@@ -1,0 +1,103 @@
+---
+title: "Amp"
+description: "VSCode extension with multi-model support and Oracle tool integration"
+---
+
+# Amp
+
+Amp is a VSCode extension (available at https://ampcode.com) that provides AI-powered coding assistance with support for multiple language models.
+
+## Overview
+
+Amp integrates directly into Visual Studio Code, providing coding assistance with a unique "Oracle" tool system that allows it to consult different language models for specialized tasks.
+
+## Multi-Model Support
+
+Amp supports multiple language models, each with specialized tuning:
+
+### Claude Sonnet 4.x
+Primary model with system prompt tuned specifically for Claude Sonnet 4.x
+
+### GPT-5
+Available as alternative model with specialized tuning
+
+To use GPT-5, configure VSCode user settings:
+```json
+{
+    "amp.url": "https://ampcode.com/",
+    "amp.gpt5": true
+}
+```
+
+### Other Models
+Amp registers other LLMs as tools ("the Oracle") that can be consulted for specific tasks.
+
+## Oracle Tool System
+
+Unique feature where different language models are registered as tools:
+- Main model can consult other models for specialized tasks
+- Models act as "oracles" for specific types of queries
+- Allows leveraging different model strengths within single workflow
+
+## Accessing System Prompt
+
+To obtain the system prompt for Amp:
+
+1. Login with Amp using VSCode
+2. Issue a short query into Amp
+3. Hold down **Alt** (Windows) or **Option** (macOS)
+4. Click on the workspace button
+5. Click "View Thread YAML"
+
+## Configuration
+
+### User Settings
+Configure via VSCode user settings:
+
+```json
+{
+    "amp.url": "https://ampcode.com/",
+    "amp.gpt5": true  // Enable GPT-5 mode
+}
+```
+
+## Model-Specific Tuning
+
+Each supported model has:
+- Specialized system prompt tuning
+- Optimized for specific model capabilities
+- Different prompts for different models
+
+### Available Configurations
+- **claude-4-sonnet.yaml**: Tuned for Claude Sonnet 4.x
+- **gpt-5.yaml**: Tuned for GPT-5
+
+## Integration
+
+### VSCode Integration
+- Native VSCode extension
+- Workspace-aware
+- Thread-based conversations
+- YAML-formatted thread viewing
+
+### Thread Management
+- View conversation threads in YAML format
+- Track model interactions
+- Debug and understand AI decision-making
+
+## Key Features
+
+- Multi-model support with easy switching
+- Oracle tool system for consulting different models
+- Model-specific prompt tuning
+- Thread inspection capabilities
+- Workspace integration
+- Configurable via VSCode settings
+
+## Use Cases
+
+- Coding assistance with multiple model perspectives
+- Consulting different models for specialized tasks
+- Debugging with thread inspection
+- Model comparison within single workflow
+- Leveraging different model strengths

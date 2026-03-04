@@ -1,0 +1,226 @@
+---
+title: How to Use
+description: Learn how to navigate and get the most from the AI System Prompts Collection
+---
+
+This guide will help you effectively navigate and utilize the AI System Prompts Collection to learn from production AI systems and improve your own implementations.
+
+## Collection Structure
+
+The repository is organized by tool/platform, making it easy to find specific prompts you're interested in:
+
+```
+system-prompts-and-models-of-ai-tools/
+├── Anthropic/
+│   ├── Claude Code/
+│   ├── Claude for Chrome/
+│   └── Sonnet 4.5 Prompt.txt
+├── Cursor Prompts/
+│   ├── Agent Prompt v1.0.txt
+│   ├── Agent Prompt v2.0.txt
+│   └── Chat Prompt.txt
+├── Devin AI/
+├── Google/
+├── Open Source prompts/
+└── [30+ other tools...]
+```
+
+<Note>
+Each directory contains prompts, system instructions, and sometimes additional documentation specific to that tool or platform.
+</Note>
+
+## Navigation Guide
+
+<Steps>
+  <Step title="Choose Your Tool">
+    Browse the main directory to find the AI tool or platform you're interested in. Tools are organized alphabetically by name.
+  </Step>
+  
+  <Step title="Explore Versions">
+    Many tools have multiple prompt versions as they evolved. Look for version numbers or dates in filenames to understand the chronology:
+    - `Agent Prompt v1.0.txt`
+    - `Agent Prompt v2.0.txt`
+    - `Agent Prompt 2025-09-03.txt`
+  </Step>
+  
+  <Step title="Read the Prompts">
+    Open the `.txt` files to view the full system prompts. These contain:
+    - System instructions and personality
+    - Tool usage patterns
+    - Safety constraints and guidelines
+    - Response formatting rules
+  </Step>
+  
+  <Step title="Check READMEs">
+    Some directories include `README.md` files with additional context about how the prompts were obtained or specific usage notes.
+  </Step>
+</Steps>
+
+## Finding Specific Content
+
+### By Tool Type
+
+The collection covers several categories of AI tools:
+
+<Tabs>
+  <Tab title="Coding Assistants">
+    - **Cursor Prompts** - AI-powered code editor
+    - **Augment Code** - Code completion and generation
+    - **VSCode Agent** - VS Code AI extensions
+    - **Replit** - Browser-based coding AI
+    - **Windsurf** - Code navigation assistant
+  </Tab>
+  
+  <Tab title="Chat Models">
+    - **Anthropic** - Claude variants and applications
+    - **Google** - Gemini and other models
+    - **Perplexity** - Search-augmented AI
+    - **NotionAI** - Workspace assistant
+  </Tab>
+  
+  <Tab title="Development Agents">
+    - **Devin AI** - Autonomous software engineer
+    - **Lovable** - Design generation agent
+    - **v0 Prompts** - UI component generation
+    - **Trae** - Development workflow agent
+  </Tab>
+  
+  <Tab title="Open Source">
+    - **Open Source prompts** - Community-contributed prompts
+    - Various open implementations
+  </Tab>
+</Tabs>
+
+### By Use Case
+
+Depending on what you're building, focus on different tools:
+
+<CardGroup cols={2}>
+  <Card title="Code Generation" icon="code">
+    Study prompts from Cursor, Augment Code, Devin AI, and Replit to understand how to guide AI for code generation tasks.
+  </Card>
+  
+  <Card title="Chat Interfaces" icon="comments">
+    Examine Anthropic Claude, Perplexity, and NotionAI prompts for conversational AI patterns.
+  </Card>
+  
+  <Card title="UI Generation" icon="palette">
+    Check out v0, Lovable, and similar tools for visual design and component generation.
+  </Card>
+  
+  <Card title="Agent Systems" icon="robot">
+    Learn from Devin AI, Manus Agent, and Trae for building autonomous agent systems.
+  </Card>
+</CardGroup>
+
+## Search Tips
+
+The repository contains over 30,000 lines of prompts. Here's how to search effectively:
+
+### Using GitHub Search
+
+If you're viewing the repository on GitHub:
+
+1. Use the **"Go to file"** feature (press `t`) to quickly find files
+2. Use GitHub's code search to find specific patterns or keywords
+3. Clone the repository locally for more advanced searching
+
+### Local Searching
+
+If you've cloned the repository:
+
+```bash
+# Search for specific keywords
+grep -r "safety" .
+
+# Find all prompts mentioning tools
+grep -r "use.*tool" *.txt
+
+# Search within a specific tool's directory
+grep -r "system:" "Cursor Prompts/"
+```
+
+## Understanding Prompt Structure
+
+Most AI system prompts in this collection follow similar patterns:
+
+<AccordionGroup>
+  <Accordion title="System Identity">
+    The opening section typically establishes:
+    - Who/what the AI is
+    - Its primary purpose
+    - Its personality or tone
+    
+    Example: *"You are an AI coding assistant specialized in Python..."*
+  </Accordion>
+  
+  <Accordion title="Capabilities & Tools">
+    Instructions about available functions and how to use them:
+    - Tool definitions
+    - When to use each tool
+    - Expected input/output formats
+  </Accordion>
+  
+  <Accordion title="Guidelines & Constraints">
+    Rules the AI must follow:
+    - Safety constraints
+    - Output formatting requirements
+    - What to avoid or refuse
+  </Accordion>
+  
+  <Accordion title="Examples">
+    Many prompts include example interactions to demonstrate expected behavior.
+  </Accordion>
+</AccordionGroup>
+
+## Comparing Versions
+
+Many tools have multiple prompt versions. Comparing them reveals:
+
+- **Evolution of capabilities** - What features were added?
+- **Refined instructions** - How did clarity improve?
+- **Safety improvements** - What guardrails were strengthened?
+- **Performance optimization** - How were prompts made more efficient?
+
+<Tip>
+Use a diff tool to compare versions side-by-side:
+```bash
+diff "Cursor Prompts/Agent Prompt v1.0.txt" "Cursor Prompts/Agent Prompt v2.0.txt"
+```
+</Tip>
+
+## Best Practices
+
+When using this collection:
+
+<CardGroup cols={2}>
+  <Card title="Learn, Don't Copy" icon="graduation-cap">
+    Study the patterns and principles rather than copying prompts verbatim. Adapt insights to your specific needs.
+  </Card>
+  
+  <Card title="Respect Licenses" icon="scale-balanced">
+    While this collection is GPL-3.0 licensed, be mindful that the original prompts may have different intellectual property considerations.
+  </Card>
+  
+  <Card title="Test Thoroughly" icon="flask">
+    If you adapt prompts for your own use, test extensively. What works for one model or context may not work for another.
+  </Card>
+  
+  <Card title="Stay Updated" icon="arrows-rotate">
+    The collection is regularly updated. Star the repository and check back for new additions and versions.
+  </Card>
+</CardGroup>
+
+## Getting Help
+
+If you have questions about using the collection:
+
+- Open an issue on the [GitHub repository](https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools)
+- Join the community [Discord server](https://discord.gg/NwzrWErdMU)
+- Reach out on [X/Twitter](https://x.com/NotLucknite)
+
+---
+
+<Card title="Next: Start Contributing" icon="code-pull-request" href="/contributing">
+  Found prompts to add or improvements to make? Learn how to contribute.
+</Card>

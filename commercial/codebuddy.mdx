@@ -1,0 +1,53 @@
+---
+title: "CodeBuddy"
+description: "Dual-mode coding assistant with Chat and Craft modes"
+---
+
+# CodeBuddy
+
+CodeBuddy is a coding assistant that operates in two distinct modes: Chat Mode for conversations and Craft Mode for code manipulation.
+
+## Modes
+
+### Chat Mode
+- Focus on natural conversation with the user
+- Answer questions and provide explanations
+- Ask clarifying questions and discuss topics openly
+- Use `chat_mode_respond` tool to reply directly
+- Cannot switch to Craft Mode directly - user must toggle manually
+
+### Craft Mode
+- Access to tools for code manipulation and file operations
+- Can make actual changes to the codebase
+- User must manually toggle from Chat Mode
+
+## Context Awareness
+
+### Visible Files
+Shows currently visible files in the editor
+
+### Open Tabs
+Tracks which files are open in tabs
+
+### Current Working Directory
+Provides file list from working directory
+
+### Current Time
+Access to current date and time
+
+## Language Support
+
+- Can operate in multiple languages
+- Defaults to Chinese environment (Simplified Chinese) in certain configurations
+- Follows user's custom instructions for language preference
+
+## Custom Instructions
+
+Supports user-defined custom instructions that override defaults without interfering with tool use guidelines.
+
+## Mode Switching
+
+- User controls mode switching via Craft/Chat toggle button
+- Assistant cannot switch modes autonomously
+- When Chat Mode tools are needed in Craft Mode, assistant asks user to "toggle to Craft Mode"
+- Cannot present mode toggle option - must direct user to manual switch

@@ -1,0 +1,136 @@
+---
+title: "Claude Code"
+description: "Anthropic's interactive CLI coding agent with comprehensive tools and task management"
+---
+
+# Claude Code
+
+Claude Code is an interactive CLI tool developed by Anthropic that helps users with software engineering tasks. Powered by Claude Sonnet 4, it provides a comprehensive set of tools for code exploration, editing, and execution.
+
+## Overview
+
+Claude Code operates as a command-line interface assistant with access to file system operations, code search capabilities, and terminal execution. It emphasizes concise, direct communication and proactive task completion.
+
+## Core Philosophy
+
+### Tone and Style
+- **Concise responses**: Answers with fewer than 4 lines unless detail is requested
+- **Direct communication**: Avoids unnecessary preamble or postamble
+- **Minimal verbosity**: Focuses on specific queries without tangential information
+- **One-word answers preferred** when appropriate
+
+### Proactiveness
+- Takes action when asked, including follow-up actions
+- Balances doing the right thing with not surprising the user
+- Answers questions first before jumping into actions
+
+## Available Tools
+
+### Task Management
+- **Task**: Launch specialized agents for complex multi-step tasks
+  - General-purpose agent for research and code search
+  - Status line setup agent
+  - Output style setup agent
+
+### File Operations
+- **Read**: Read files with line offset and limit support
+- **Edit**: Perform exact string replacements
+- **MultiEdit**: Make multiple edits to a single file
+- **Write**: Create or overwrite files
+- **NotebookEdit**: Edit Jupyter notebook cells
+
+### Code Search
+- **Glob**: Fast file pattern matching (e.g., `**/*.js`)
+- **Grep**: Content search using regex patterns
+- **LS**: List files and directories
+
+### Execution
+- **Bash**: Execute shell commands with timeout support
+- **BashOutput**: Monitor background shell output
+- **KillBash**: Terminate running background shells
+
+### Web & Search
+- **WebFetch**: Fetch and analyze web content
+- **WebSearch**: Search the web for current information
+
+### Task Tracking
+- **TodoWrite**: Manage structured task lists for coding sessions
+
+## Key Features
+
+### Task Management
+Claude Code uses TodoWrite extensively to:
+- Track progress on complex tasks
+- Break down large tasks into smaller steps
+- Provide visibility into work progress
+- Mark tasks as pending, in_progress, or completed
+
+### Code Conventions
+- Mimics existing code style and patterns
+- Uses existing libraries and utilities
+- Follows framework-specific best practices
+- Never assumes library availability without verification
+
+### Security Best Practices
+- Never exposes or logs secrets and keys
+- Refuses malicious code creation or modification
+- Supports only defensive security tasks
+- Warns about potentially harmful files
+
+### Git Integration
+Follows strict protocols for git operations:
+- Never updates git config
+- Avoids destructive commands without explicit user request
+- Never skips hooks unless requested
+- Creates commits only when explicitly asked
+- Warns before force pushing to main/master
+
+## Workflow
+
+### Typical Task Flow
+1. User requests a software engineering task
+2. Claude Code uses TodoWrite to plan if needed
+3. Searches codebase using Glob/Grep or Task tool
+4. Implements solution using available tools
+5. Verifies with tests if applicable
+6. Runs lint and typecheck commands
+7. Marks todos as completed
+
+### Committing Changes
+When creating commits:
+1. Runs git status and git diff in parallel
+2. Analyzes staged changes
+3. Drafts concise commit message (1-2 sentences)
+4. Adds relevant untracked files
+5. Creates commit and verifies with git status
+
+### Creating Pull Requests
+When creating PRs:
+1. Runs git status, git diff, and branch checks in parallel
+2. Analyzes all commits in the branch
+3. Drafts comprehensive PR summary
+4. Creates and pushes branch if needed
+5. Uses `gh pr create` with proper formatting
+
+## Memory Management
+
+Claude Code supports memory through CLAUDE.md files:
+- Stores project-specific instructions
+- Remembers preferred commands and workflows
+- Maintains context across sessions
+
+## Model Information
+
+- **Model**: Claude Sonnet 4 (claude-sonnet-4-20250514)
+- **Knowledge Cutoff**: January 2025
+- **Platform**: Darwin, macOS
+
+## Documentation
+
+For detailed information, visit:
+- Main docs: https://docs.anthropic.com/en/docs/claude-code
+- Available sub-pages: overview, quickstart, memory, common-workflows, ide-integrations, mcp, github-actions, sdk, troubleshooting, settings, hooks
+
+## Feedback
+
+Report issues at: https://github.com/anthropics/claude-code/issues

@@ -1,0 +1,173 @@
+---
+title: Understanding System Prompts
+description: Deep dive into system prompts used by AI coding assistants and how they shape behavior
+---
+
+# Understanding System Prompts
+
+System prompts are foundational instructions that define an AI coding assistant's behavior, capabilities, and interaction patterns. They serve as the "constitution" that guides every response and action the assistant takes.
+
+## What is a System Prompt?
+
+A system prompt is a comprehensive set of instructions provided to an AI model at the start of every conversation. It establishes:
+
+- **Identity**: Who the assistant is and what it represents
+- **Capabilities**: What tools and actions are available
+- **Behavioral Rules**: How to interact with users and handle requests
+- **Constraints**: What limitations and safety guidelines to follow
+- **Communication Style**: Tone, verbosity, and formatting preferences
+
+## Anatomy of a System Prompt
+
+Most coding assistant system prompts follow a structured format:
+
+<Accordion title="Identity & Role Definition">
+```txt
+You are Amp, a powerful AI coding agent built by Sourcegraph. 
+You help the user with software engineering tasks.
+```
+
+This section establishes who the assistant is and its primary purpose.
+</Accordion>
+
+<Accordion title="Capabilities & Agency">
+```txt
+You take initiative when the user asks you to do something, but try to 
+maintain an appropriate balance between:
+1. Doing the right thing when asked, including taking actions
+2. Not surprising the user with actions you take without asking
+```
+
+Defines how proactive the assistant should be and when to ask for permission.
+</Accordion>
+
+<Accordion title="Tool Usage Guidelines">
+```txt
+# Tools
+- Use the available search tools to understand the codebase
+- NEVER refer to tool names when speaking to the USER
+- Instead, just say what the tool is doing in natural language
+```
+
+Specifies how to use available tools and how to communicate about them.
+</Accordion>
+
+<Accordion title="Communication Style">
+```txt
+You are concise, direct, and to the point. You minimize output tokens 
+while maintaining helpfulness, quality, and accuracy.
+Keep responses under 4 lines unless user asks for detail.
+```
+
+Defines the expected tone, verbosity, and formatting.
+</Accordion>
+
+## Key Patterns Across Tools
+
+### Task Management
+
+Most modern coding assistants emphasize structured task tracking:
+
+```txt
+Use the todo_write tool VERY frequently to ensure you are tracking 
+your tasks and giving the user visibility into your progress.
+
+Mark todos as completed as soon as you are done with a task.
+```
+
+### Code Quality Standards
+
+```txt
+- Match style of recent code in the same subsystem
+- Strong typing, explicit error paths, predictable I/O
+- No `as any` or linter suppression unless explicitly requested
+- Reuse existing interfaces/schemas; don't duplicate
+```
+
+### Search Strategy
+
+Assistants are typically instructed to use semantic search effectively:
+
+```txt
+Semantic search is your MAIN exploration tool.
+- Start with a broad, high-level query
+- Break multi-part questions into focused sub-queries
+- Run multiple searches with different wording
+```
+
+## Comparison: Conciseness vs. Explanation
+
+<Tabs>
+  <Tab title="Claude Code">
+    ```txt
+    You MUST answer concisely with fewer than 4 lines.
+    Answer the user's question directly, without elaboration.
+    One word answers are best.
+    ```
+    **Philosophy**: Extreme brevity, minimal explanation
+  </Tab>
+  
+  <Tab title="Cursor Agent">
+    ```txt
+    You are an agent - please keep going until the user's query 
+    is completely resolved. Autonomously resolve the query to 
+    the best of your ability.
+    ```
+    **Philosophy**: Completeness over brevity, autonomous execution
+  </Tab>
+  
+  <Tab title="Augment Code">
+    ```txt
+    Focus on doing what the user asks you to do.
+    If you think there is a clear follow-up task, ASK the user.
+    Don't start by saying a question was good, great, or excellent.
+    ```
+    **Philosophy**: Direct action, avoid flattery, ask before extending
+  </Tab>
+</Tabs>
+
+## Safety and Constraints
+
+All assistants include safety guidelines:
+
+```txt
+IMPORTANT: Assist with defensive security tasks only. 
+Refuse to create, modify, or improve code that may be used maliciously.
+Never introduce code that exposes or logs secrets and keys.
+```
+
+## Environment Context
+
+System prompts typically include dynamic environment information:
+
+```txt
+<env>
+  Working directory: /home/user/project
+  Platform: linux
+  Today's date: 2026-03-04
+</env>
+```
+
+This helps the assistant understand the context in which it's operating.
+
+## Best Practices for Prompt Design
+
+1. **Be Explicit**: Clearly define expected behaviors rather than leaving them implicit
+2. **Use Examples**: Show concrete examples of good and bad responses
+3. **Prioritize**: List most important rules first
+4. **Structure**: Use clear headings and sections for different aspects
+5. **Balance**: Find the right trade-off between detail and conciseness
+
+## Evolution Trends
+
+Modern system prompts increasingly emphasize:
+
+- **Parallelization**: Execute independent operations simultaneously
+- **Minimal Reasoning**: Reduce verbose explanations, act quickly
+- **Tool Transparency**: Hide tool names, show user-friendly descriptions
+- **Quality Gates**: Run linters, type checks, and tests automatically
+- **Contextual Awareness**: Understand file types, patterns, and conventions
+
+<Note>
+System prompts are iteratively refined based on user feedback and observed behaviors. The examples shown here represent snapshots from various tools circa 2025-2026.
+</Note>

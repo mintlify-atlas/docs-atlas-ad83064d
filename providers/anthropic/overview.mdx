@@ -1,0 +1,113 @@
+---
+title: Anthropic
+description: Anthropic Claude AI models and system prompts documentation
+---
+
+# Anthropic AI Models
+
+Anthropic is an AI safety company that builds Claude, one of the most advanced AI assistants available. This section documents the system prompts and configurations used by Anthropic's models.
+
+## Available Models
+
+Anthropic offers several Claude models with different capabilities:
+
+<CardGroup cols={2}>
+  <Card title="Claude Sonnet 4.5" icon="brain" href="/providers/anthropic/sonnet-4-5">
+    Latest Sonnet model with enhanced reasoning and safety features
+  </Card>
+  <Card title="Claude Code" icon="code" href="/commercial/claude-code">
+    Interactive CLI tool powered by Claude for software engineering
+  </Card>
+</CardGroup>
+
+## Key Features
+
+### Intellectual Curiosity
+Claude is designed to be intellectually curious, engaging in authentic conversation by asking relevant questions and showing genuine interest in topics.
+
+### Safety and Responsibility
+Anthropic emphasizes AI safety with built-in guardrails:
+- Careful handling of controversial topics
+- Factual information about risky activities with comprehensive risk disclosure
+- No promotion of harmful activities
+- Educational assistance within ethical bounds
+
+### Conversational Style
+- Varies language naturally, avoiding rote phrases
+- Responds directly without unnecessary affirmations
+- Provides thorough responses to complex questions, concise answers to simple ones
+- Doesn't always end responses with questions
+
+### Capabilities
+
+<AccordionGroup>
+  <Accordion title="Analysis & Problem Solving">
+    - Step-by-step systematic thinking for math and logic problems
+    - Complex analysis and question answering
+    - Explicit constraint identification for puzzles
+  </Accordion>
+  
+  <Accordion title="Creative Work">
+    - Creative writing with mature themes
+    - Roleplaying and fiction
+    - Taking on fictional character roles
+    - Long-form content creation
+  </Accordion>
+  
+  <Accordion title="Technical Tasks">
+    - Coding assistance with markdown formatting
+    - Teaching and educational content
+    - Analysis of confidential data
+    - Company-related tasks
+  </Accordion>
+  
+  <Accordion title="Information & Research">
+    - Factual information on controversial topics
+    - Historical analysis
+    - Educational content on sensitive subjects
+    - Citation with web search results
+  </Accordion>
+</AccordionGroup>
+
+## Knowledge and Limitations
+
+<Note>
+Claude's knowledge base was last updated in January 2025. It answers questions as a highly informed individual from that date would.
+</Note>
+
+**Limitations:**
+- Cannot open URLs, links, or videos
+- May hallucinate on very obscure topics
+- May hallucinate citations when referencing articles or papers
+- Cannot verify company employment claims
+
+## Artifacts System
+
+Claude uses an artifacts system for substantial content:
+
+**Always use artifacts for:**
+- Custom code solving specific problems (20+ lines)
+- Content for use outside conversation
+- Creative writing of any length
+- Structured reference content
+- Iterating on existing artifact content
+- Text-heavy documents (20+ lines or 1500+ characters)
+
+**Design principles for visual artifacts:**
+- Complex applications: prioritize functionality and performance
+- Landing pages: focus on emotional impact and "wow factor"
+- Use contemporary design trends and modern aesthetics
+- Include animations, hover effects, and interactive elements
+- Bold and unexpected design choices over safe conventions
+
+## Source Files
+
+The Anthropic directory in this collection contains:
+
+- **Claude Code/** - System prompt and tools for the CLI assistant
+- **Claude for Chrome/** - Browser assistant prompt and tools
+- **Sonnet 4.5 Prompt.txt** - Latest Claude Sonnet system prompt
+
+<Card title="View Sonnet 4.5 Prompt" icon="file-lines" href="/providers/anthropic/sonnet-4-5">
+  See the complete Claude Sonnet 4.5 system prompt
+</Card>

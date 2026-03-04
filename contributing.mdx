@@ -1,0 +1,290 @@
+---
+title: Contributing
+description: Help expand and improve the AI System Prompts Collection
+---
+
+The AI System Prompts Collection thrives on community contributions. Whether you've discovered new prompts, found updates to existing ones, or want to improve documentation, your contributions are valuable.
+
+## Ways to Contribute
+
+<CardGroup cols={2}>
+  <Card title="Submit New Prompts" icon="plus">
+    Add system prompts from AI tools not yet in the collection
+  </Card>
+  
+  <Card title="Update Existing Prompts" icon="arrows-rotate">
+    Submit newer versions of prompts as tools evolve
+  </Card>
+  
+  <Card title="Improve Documentation" icon="book">
+    Add context, READMEs, or clarifying notes
+  </Card>
+  
+  <Card title="Report Issues" icon="flag">
+    Let us know about outdated or incorrect prompts
+  </Card>
+</CardGroup>
+
+## Contribution Guidelines
+
+### Before You Contribute
+
+<Steps>
+  <Step title="Check for Duplicates">
+    Search the repository to ensure the prompt isn't already included. Check both the tool's directory and any related directories.
+  </Step>
+  
+  <Step title="Verify Authenticity">
+    Ensure the prompts you're submitting are genuine system prompts, not user-generated content or speculation.
+  </Step>
+  
+  <Step title="Respect Ethics">
+    Only submit prompts obtained through legitimate means. Do not submit prompts obtained through:
+    - Hacking or unauthorized access
+    - Violating terms of service
+    - Exploiting security vulnerabilities maliciously
+  </Step>
+</Steps>
+
+<Warning>
+While this collection aims to be comprehensive, we're committed to responsible disclosure. If you discover a serious security vulnerability, consider reporting it to the tool's developers first before making it public.
+</Warning>
+
+## How to Submit Prompts
+
+### Repository Structure
+
+Follow the existing organization pattern:
+
+```
+[Tool Name]/
+├── README.md (optional, but recommended)
+├── Prompt.txt
+├── Version 2.0.txt (if multiple versions)
+└── [Other relevant files]
+```
+
+### File Naming Conventions
+
+<Tabs>
+  <Tab title="Single Prompt">
+    If there's only one prompt for a tool:
+    ```
+    Tool Name/Prompt.txt
+    ```
+    or
+    ```
+    Tool Name/System Prompt.txt
+    ```
+  </Tab>
+  
+  <Tab title="Multiple Versions">
+    Include version numbers or dates:
+    ```
+    Tool Name/Agent Prompt v1.0.txt
+    Tool Name/Agent Prompt v2.0.txt
+    ```
+    or
+    ```
+    Tool Name/Prompt 2025-01-15.txt
+    Tool Name/Prompt 2025-03-04.txt
+    ```
+  </Tab>
+  
+  <Tab title="Different Modes">
+    For tools with distinct modes:
+    ```
+    Tool Name/Chat Prompt.txt
+    Tool Name/Agent Prompt.txt
+    Tool Name/Inline Completion Prompt.txt
+    ```
+  </Tab>
+  
+  <Tab title="Model Variants">
+    For different underlying models:
+    ```
+    Tool Name/claude-4-sonnet-prompts.txt
+    Tool Name/gpt-5-agent-prompts.txt
+    ```
+  </Tab>
+</Tabs>
+
+### Step-by-Step Submission
+
+<Steps>
+  <Step title="Fork the Repository">
+    Go to [github.com/x1xhlol/system-prompts-and-models-of-ai-tools](https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools) and click **Fork** in the top right.
+  </Step>
+  
+  <Step title="Create a Branch">
+    Create a descriptive branch for your contribution:
+    ```bash
+    git checkout -b add-toolname-prompts
+    ```
+  </Step>
+  
+  <Step title="Add Your Files">
+    Create the appropriate directory structure and add your prompt files:
+    ```bash
+    mkdir "New Tool Name"
+    cd "New Tool Name"
+    # Add your prompt files
+    ```
+  </Step>
+  
+  <Step title="Include Context (Recommended)">
+    Create a `README.md` in the tool's directory with:
+    - When the prompt was obtained
+    - How it was obtained (if relevant)
+    - Which version of the tool it's from
+    - Any special notes or observations
+    
+    Example:
+    ```markdown
+    # Tool Name Prompts
+    
+    System prompts from [Tool Name] version 2.5
+    Obtained: March 2026
+    
+    ## Notes
+    - This prompt is used for the agent mode
+    - Updated to include new tool calling capabilities
+    ```
+  </Step>
+  
+  <Step title="Commit Your Changes">
+    Write a clear commit message:
+    ```bash
+    git add .
+    git commit -m "Add [Tool Name] system prompts v2.5"
+    ```
+  </Step>
+  
+  <Step title="Push and Create PR">
+    Push your branch and create a pull request:
+    ```bash
+    git push origin add-toolname-prompts
+    ```
+    Then open a pull request on GitHub with:
+    - Clear title describing what you're adding
+    - Description of the prompts and their source
+    - Any relevant context or notes
+  </Step>
+</Steps>
+
+## Quality Standards
+
+To maintain the collection's quality, please ensure:
+
+<AccordionGroup>
+  <Accordion title="Complete Prompts">
+    Submit the full system prompt, not fragments or partial content. If you only have a portion, note this clearly in the README.
+  </Accordion>
+  
+  <Accordion title="Plain Text Format">
+    Use `.txt` files for prompts to ensure maximum compatibility. Avoid proprietary formats.
+  </Accordion>
+  
+  <Accordion title="Proper Attribution">
+    If known, include:
+    - Which tool/platform the prompt is from
+    - Version or date information
+    - Any relevant model information (e.g., "uses Claude Sonnet 4.5")
+  </Accordion>
+  
+  <Accordion title="Clean Formatting">
+    - Remove unnecessary whitespace
+    - Preserve the original structure and formatting
+    - Use UTF-8 encoding
+  </Accordion>
+</AccordionGroup>
+
+## Updating Existing Prompts
+
+When submitting updates to existing prompts:
+
+<Note>
+**Do not overwrite** existing prompt files. Instead, add new files with version numbers or dates to preserve the historical record.
+</Note>
+
+For example, if `Tool Name/Prompt.txt` exists:
+
+1. Rename it to `Tool Name/Prompt v1.0.txt` (if not already versioned)
+2. Add your new prompt as `Tool Name/Prompt v2.0.txt`
+3. Update the README to note both versions
+
+## Documentation Contributions
+
+You can also help by:
+
+- Adding README files to directories that lack them
+- Improving existing documentation
+- Adding context about how prompts were obtained
+- Creating guides for specific use cases
+- Fixing typos or formatting issues
+
+## Reporting Issues
+
+Found something wrong? Help us fix it:
+
+<Steps>
+  <Step title="Check Existing Issues">
+    Search [GitHub Issues](https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools/issues) to see if it's already reported.
+  </Step>
+  
+  <Step title="Create a New Issue">
+    If not found, create a new issue with:
+    - **Clear title**: "[Tool Name] prompt is outdated" or "Missing prompt for [Tool]"
+    - **Description**: What's wrong or what's missing
+    - **Evidence**: Links or screenshots if applicable
+  </Step>
+  
+  <Step title="Suggest Solutions">
+    If you know how to fix it, mention that in the issue. Even better, submit a PR!
+  </Step>
+</Steps>
+
+## Community Standards
+
+When contributing:
+
+<CardGroup cols={2}>
+  <Card title="Be Respectful" icon="handshake">
+    Treat other contributors with respect. We're all here to learn and share.
+  </Card>
+  
+  <Card title="Be Accurate" icon="bullseye">
+    Only submit verified information. If you're uncertain, ask or note your uncertainty.
+  </Card>
+  
+  <Card title="Be Responsible" icon="shield">
+    Consider the ethical implications of what you're sharing. Our goal is education, not exploitation.
+  </Card>
+  
+  <Card title="Be Patient" icon="clock">
+    Pull requests are reviewed as time allows. Maintainers volunteer their time.
+  </Card>
+</CardGroup>
+
+## Recognition
+
+Contributors are valued members of the community:
+
+- Your GitHub profile will appear in the repository's contributor list
+- Significant contributions may be highlighted in updates
+- You're helping thousands of developers and researchers learn
+
+## Questions?
+
+Not sure about something? Reach out:
+
+- **GitHub Discussions**: Ask in the repository
+- **Discord**: Join the [LeaksLab Discord](https://discord.gg/NwzrWErdMU)
+- **Email**: lucknitelol@pm.me
+- **X/Twitter**: [@NotLucknite](https://x.com/NotLucknite)
+
+---
+
+<Card title="Ready to Contribute?" icon="code-branch" href="https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools">
+  Head to the GitHub repository and start your first contribution
+</Card>

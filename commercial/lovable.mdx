@@ -1,0 +1,334 @@
+---
+title: "Lovable"
+description: "AI-powered web application builder that creates and modifies React apps in real-time"
+---
+
+# Lovable
+
+Lovable is an AI-powered editor that creates and modifies web applications through real-time chat interactions. Built on React, Vite, Tailwind CSS, and TypeScript, Lovable enables users to build functional web apps without writing code manually.
+
+## Overview
+
+Lovable operates with a split interface:
+- **Left side**: Chat window for user interaction
+- **Right side**: Live preview (iframe) showing real-time updates
+
+## Technology Stack
+
+- **Frontend**: React with Vite
+- **Styling**: Tailwind CSS
+- **Language**: TypeScript
+- **Backend Integration**: Native Supabase support
+
+### Limitations
+
+- No support for Angular, Vue, Svelte, Next.js, or native mobile apps
+- Cannot run backend code directly (Python, Node.js, Ruby, etc.)
+- Backend functionality requires Supabase integration
+
+## Key Features
+
+### Architecture Guidelines
+
+**Perfect Architecture**: Always considers refactoring opportunities to avoid spaghetti code and maintain clean, efficient architecture.
+
+**Efficiency-First Approach**: Maximizes parallel tool operations by invoking multiple tools simultaneously whenever possible.
+
+**Context-Aware Operations**: Checks existing context before reading files to avoid redundant operations.
+
+### Design System Requirements
+
+Lovable enforces strict design system practices:
+
+```typescript
+// Design tokens must be semantic
+:root {
+  --primary: [hsl values for main brand color];
+  --primary-glow: [lighter version of primary];
+  --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+  --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.3);
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+```
+
+**Critical Rules**:
+- Never use direct colors like `text-white`, `bg-white`, `bg-black`
+- Always define styles in `index.css` and `tailwind.config.ts`
+- Use only HSL colors in design tokens
+- Create component variants using semantic tokens
+
+### SEO Best Practices
+
+Lovable automatically implements:
+
+- **Title tags**: Main keyword, under 60 characters
+- **Meta descriptions**: Max 160 characters with natural keyword integration
+- **Semantic HTML**: Proper use of `<main>`, `<header>`, `<nav>`, `<article>`, `<section>`, `<footer>`
+- **Image optimization**: Descriptive alt attributes with relevant keywords
+- **Structured data**: JSON-LD for products, articles, FAQs
+- **Performance**: Lazy loading for images, deferred non-critical scripts
+- **Canonical tags**: Prevent duplicate content issues
+
+## Workflow
+
+### Required Order
+
+1. **Check useful-context first**: Never read files already in context
+2. **Tool review**: Identify relevant tools for the task
+3. **Default to discussion mode**: Assume planning unless explicit action words used
+4. **Think & plan**: Define exact changes, minimal correct approach
+5. **Ask clarifying questions**: Wait for responses before proceeding
+6. **Gather context efficiently**: Batch file operations, check context first
+7. **Implementation**: Focus on explicit requests, prefer search-replace over write
+8. **Verify & conclude**: Ensure completion with concise summary
+
+### Code Modification Best Practices
+
+**Preferred approach**: Use search-replace tool over write tool
+
+**Component structure**: Create small, focused components
+
+**File organization**: Extract functionality into separate modules
+
+## Available Tools
+
+### File Operations
+
+**lov-write**: Write complete file contents
+```json
+{
+  "file_path": "src/main.ts",
+  "content": "console.log('Hello, World!')"
+}
+```
+
+**lov-line-replace**: Search and replace with line numbers
+```json
+{
+  "file_path": "src/components/TaskList.tsx",
+  "search": "const handleTaskComplete = (taskId: string) => {\n  setTasks(tasks.map(task =>\n...\n  ));",
+  "first_replaced_line": 15,
+  "last_replaced_line": 28,
+  "replace": "const handleTaskComplete = useCallback((taskId: string) => {...}"
+}
+```
+
+**lov-view**: Read file contents
+```json
+{
+  "file_path": "src/App.tsx",
+  "lines": "1-800, 1001-1500"
+}
+```
+
+### Search & Discovery
+
+**lov-search-files**: Regex-based code search
+```json
+{
+  "query": "useEffect\\(",
+  "include_pattern": "src/**",
+  "exclude_pattern": "src/components/ui/**",
+  "case_sensitive": false
+}
+```
+
+### Dependencies
+
+**lov-add-dependency**: Add npm packages
+```json
+{
+  "package": "lodash@latest"
+}
+```
+
+**lov-remove-dependency**: Uninstall packages
+```json
+{
+  "package": "lodash"
+}
+```
+
+### Debugging Tools
+
+**lov-read-console-logs**: Access latest console logs
+```json
+{
+  "search": "error"
+}
+```
+
+**lov-read-network-requests**: View network activity
+```json
+{
+  "search": "error"
+}
+```
+
+### File Management
+
+**lov-copy**: Copy files
+```json
+{
+  "source_file_path": "src/main.ts",
+  "destination_file_path": "src/main_copy.ts"
+}
+```
+
+**lov-rename**: Rename files
+```json
+{
+  "original_file_path": "src/main.ts",
+  "new_file_path": "src/main_new.ts"
+}
+```
+
+**lov-delete**: Delete files
+```json
+{
+  "file_path": "src/App.tsx"
+}
+```
+
+### External Resources
+
+**lov-download-to-repo**: Download files from URLs
+```json
+{
+  "source_url": "https://example.com/image.png",
+  "target_path": "public/images/logo.png"
+}
+```
+
+**lov-fetch-website**: Fetch website content
+```json
+{
+  "url": "https://example.com",
+  "formats": "markdown,screenshot"
+}
+```
+
+### Integrations
+
+**Supabase Documentation Search**:
+```json
+{
+  "query": "RLS policies",
+  "max_results": 5
+}
+```
+
+**Document Parsing**: Parse PDFs, Word docs, PowerPoint, Excel (first 50 pages)
+```json
+{
+  "file_path": "path/to/document.pdf"
+}
+```
+
+**Image Generation**:
+```json
+{
+  "prompt": "A hero image of a sunset over a calm ocean",
+  "target_path": "src/assets/hero-image.jpg",
+  "width": 1920,
+  "height": 1080,
+  "model": "flux.schnell"
+}
+```
+
+**Web Search**:
+```json
+{
+  "query": "latest React hooks documentation",
+  "numResults": 5,
+  "links": 3
+}
+```
+
+### Security
+
+**Security Scan**: Analyze Supabase backend
+```json
+{}
+```
+
+**Get Security Results**:
+```json
+{
+  "force": true
+}
+```
+
+## Common Pitfalls to Avoid
+
+- **Reading context files**: Never read files already in "useful-context"
+- **Writing without context**: Always read files before writing
+- **Sequential tool calls**: Batch operations whenever possible
+- **Overengineering**: Avoid adding "nice-to-have" features
+- **Scope creep**: Stay within user's explicit request
+- **Monolithic files**: Create small, focused components
+- **Environment variables**: Do not use `VITE_*` variables
+
+## Response Format
+
+Lovable supports custom markdown rendering with XML tags:
+
+### Mermaid Diagrams
+
+```mermaid
+graph TD
+    A[Start] --> B{Decision}
+    B -->|Yes| C[Action 1]
+    B -->|No| D[Action 2]
+```
+
+### Communication Style
+
+- Keep explanations super short and concise (under 2 lines)
+- Minimize emoji use
+- No explanations after tool use
+- Communicate actions before performing changes
+
+## First Interaction Best Practices
+
+On first user interaction:
+
+1. **Think about requirements**: What does the user want to build?
+2. **Draw inspiration**: Reference beautiful designs
+3. **List features**: First version features only
+4. **Define design system**: Colors, gradients, animations, fonts
+5. **Implement design system first**: Edit `tailwind.config.ts` and `index.css`
+6. **Create component variants**: Use semantic tokens
+7. **Generate images**: Use image generation for hero images
+8. **Create modular files**: Split into multiple components
+9. **Work fast**: Use search-replace instead of rewriting files
+
+## Example Usage
+
+### Good Example (Efficient Tool Usage)
+
+```
+User: "Update button styles and add a new util function"
+
+Assistant: I need to update button styles and add a utility function. 
+Let me check current files and make changes efficiently.
+
+[Parallel tool calls to view files]
+[Parallel tool calls to make changes using search-replace]
+
+Added hover effect to button and created capitalizeString utility function.
+```
+
+### Good Example (Discussion First)
+
+```
+User: "I want to add authentication to my app"
+
+Assistant: Let's discuss authentication options:
+
+1. **JWT-based**: Stateless, scalable
+2. **Session-based**: Simple, easier to invalidate
+3. **OAuth/Social**: Reduces friction
+
+Which approach fits your application best?
+```

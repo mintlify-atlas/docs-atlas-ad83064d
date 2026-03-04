@@ -1,0 +1,464 @@
+---
+title: AI Model Configurations
+description: Model configurations and parameters used across AI coding assistants
+---
+
+# AI Model Configurations
+
+AI coding assistants use various large language models (LLMs) with specific configurations to balance performance, cost, and capabilities. This page documents the models and their configurations across different tools.
+
+## Primary Models Used
+
+<CardGroup cols={2}>
+  <Card title="Claude Sonnet 4" icon="brain">
+    **Provider**: Anthropic
+    
+    **Used By**: Cursor, Augment, Claude Code, Amp
+    
+    **Capabilities**:
+    - Advanced reasoning
+    - Long context (200k+ tokens)
+    - Tool use and function calling
+    - Multi-modal (text + images)
+  </Card>
+  
+  <Card title="GPT-4.1" icon="openai">
+    **Provider**: OpenAI
+    
+    **Used By**: Cursor Agent
+    
+    **Capabilities**:
+    - High-quality code generation
+    - Structured output
+    - Function calling
+    - Vision capabilities
+  </Card>
+  
+  <Card title="GPT-5" icon="rocket">
+    **Provider**: OpenAI
+    
+    **Used By**: Amp (experimental)
+    
+    **Capabilities**:
+    - Enhanced reasoning
+    - Better context utilization
+    - Improved code understanding
+    - Faster inference
+  </Card>
+  
+  <Card title="o3" icon="lightbulb">
+    **Provider**: OpenAI
+    
+    **Used By**: Amp Oracle
+    
+    **Capabilities**:
+    - Deep reasoning model
+    - Code reviews
+    - Architecture planning
+    - Complex debugging
+  </Card>
+</CardGroup>
+
+## Model Configurations
+
+### Amp Configuration (Claude 4 Sonnet)
+
+```yaml
+system:
+  - type: text
+    text: >
+      You are Amp, a powerful AI coding agent built by Sourcegraph.
+      You help the user with software engineering tasks.
+      
+      # Role & Agency
+      - Do the task end to end. Don't hand back half-baked work.
+      - Balance initiative with restraint
+      - Do not add explanations unless asked
+  - type: text
+    text: >
+      # Environment
+      Today's date: Mon Sep 15 2025
+      Working directory: /c:/Users/user/project
+      Operating system: windows
+    cache_control:
+      type: ephemeral
+  - type: text
+    text: >
+      You MUST answer concisely with fewer than 4 lines of text.
+```
+
+**Key Features:**
+- Multi-section system prompt
+- Ephemeral caching for environment data
+- Strict conciseness requirements
+
+### Amp Configuration (GPT-5)
+
+```yaml
+model: gpt-5
+~debugParamsUsed:
+  model: gpt-5
+  input:
+    - role: system
+      content: >
+        You are Amp, a powerful AI coding agent.
+        
+        # Guardrails
+        - Simple-first: prefer smallest, local fix
+        - Reuse-first: search for existing patterns
+        - No surprise edits: show plan if >3 files
+        - No new deps without approval
+        
+        MINIMIZE REASONING: Think efficiently and act quickly.
+  store: false
+  include:
+    - reasoning.encrypted_content
+```
+
+**Key Features:**
+- Emphasis on minimal reasoning
+- Guardrails for safe operations
+- Encrypted reasoning content
+- Non-persistent storage
+
+### Cursor Agent Configuration
+
+```txt
+You are powered by the model named GPT-4.1.
+Knowledge cutoff: 2024-06
+
+Image input capabilities: Enabled
+
+You operate in Cursor.
+You are an agent - keep going until resolved.
+```
+
+**Features:**
+- Explicit knowledge cutoff date
+- Multi-modal input support
+- Autonomous agent mode
+
+### Claude Code Configuration
+
+```txt
+You are powered by the model named Sonnet 4.
+The exact model ID is claude-sonnet-4-20250514.
+Assistant knowledge cutoff is January 2025.
+```
+
+**Features:**
+- Specific model version tracking
+- Clear knowledge cutoff
+- Minimal configuration overhead
+
+### Augment Code Configuration
+
+```txt
+# Identity
+You are Augment Agent developed by Augment Code.
+Base model: Claude Sonnet 4 by Anthropic.
+The current date is 1848-15-03.
+```
+
+**Features:**
+- Explicit base model attribution
+- Dynamic date injection
+- Brand identity emphasis
+
+## Token Budget Management
+
+### Cursor Approach
+
+```xml
+<budget:token_budget>1000000</budget:token_budget>
+```
+
+- Large token budget for complex tasks
+- Allows extensive context gathering
+- Supports parallel tool operations
+
+### Claude Code Approach
+
+```txt
+You should minimize output tokens as much as possible while 
+maintaining helpfulness, quality, and accuracy.
+
+Keep responses under 4 lines unless user asks for detail.
+```
+
+- Aggressive token conservation
+- Minimal explanations
+- Direct, concise responses
+
+## Model Selection by Task
+
+<Tabs>
+  <Tab title="Code Generation">
+    **Best Models**: GPT-4.1, Claude Sonnet 4
+    
+    **Why**:
+    - Strong code completion
+    - Pattern recognition
+    - Syntax accuracy
+    - Multi-language support
+    
+    **Example Configuration**:
+    ```txt
+    When making code changes, NEVER output code to the USER.
+    Instead use code edit tools to implement the change.
+    
+    Generated code must be run immediately by the USER.
+    Add all necessary imports and dependencies.
+    ```
+  </Tab>
+  
+  <Tab title="Code Review & Planning">
+    **Best Models**: o3, Claude Sonnet 4
+    
+    **Why**:
+    - Deep reasoning capabilities
+    - Architectural thinking
+    - Trade-off analysis
+    - Long-term planning
+    
+    **Example Configuration**:
+    ```txt
+    Use the oracle tool for:
+    - Code reviews and architecture feedback
+    - Planning complex implementations
+    - Analyzing code quality
+    - Complex debugging
+    ```
+  </Tab>
+  
+  <Tab title="Semantic Search">
+    **Best Models**: Claude Sonnet 4, GPT-4.1
+    
+    **Why**:
+    - Natural language understanding
+    - Contextual relevance
+    - Multi-step reasoning
+    - Ambiguity resolution
+    
+    **Example Configuration**:
+    ```txt
+    Semantic search is your MAIN exploration tool.
+    - Start with broad, high-level queries
+    - Break into focused sub-queries
+    - Run multiple searches with different wording
+    ```
+  </Tab>
+  
+  <Tab title="Fast Responses">
+    **Best Models**: Claude Sonnet 4 (with caching)
+    
+    **Why**:
+    - Prompt caching support
+    - Fast inference
+    - Efficient token usage
+    - Good for iterative tasks
+    
+    **Example Configuration**:
+    ```yaml
+    cache_control:
+      type: ephemeral
+    ```
+  </Tab>
+</Tabs>
+
+## Temperature and Sampling
+
+Most tools use default or near-default temperature settings:
+
+```python
+# Typical configuration
+temperature = 0.7  # Balanced creativity and consistency
+top_p = 0.95       # Nucleus sampling
+max_tokens = 4096  # Response length limit
+```
+
+**Variations by Tool**:
+
+| Tool | Temperature | Top P | Max Tokens | Notes |
+|------|-------------|-------|------------|-------|
+| Cursor | Default | Default | 4096 | Standard settings |
+| Claude Code | Default | Default | Variable | Optimized for conciseness |
+| Amp | Default | Default | Variable | Context-dependent |
+| Augment | Default | Default | 8192 | Longer responses allowed |
+
+## Function Calling & Tool Use
+
+### Anthropic Format (Claude)
+
+```json
+{
+  "name": "multi_tool_use.parallel",
+  "description": "Run multiple tools simultaneously",
+  "parameters": {
+    "tool_uses": [
+      {
+        "recipient_name": "functions.read_file",
+        "parameters": {"target_file": "main.py"}
+      },
+      {
+        "recipient_name": "functions.grep",
+        "parameters": {"pattern": "class.*:"}
+      }
+    ]
+  }
+}
+```
+
+**Features**:
+- Parallel tool execution
+- Namespaced functions
+- Structured parameters
+
+### OpenAI Format (GPT)
+
+```json
+{
+  "tool_calls": [
+    {
+      "id": "call_abc123",
+      "type": "function",
+      "function": {
+        "name": "read_file",
+        "arguments": "{\"path\": \"main.py\"}"
+      }
+    }
+  ]
+}
+```
+
+**Features**:
+- Unique call IDs
+- JSON string arguments
+- Sequential by default
+
+## Context Window Optimization
+
+### Caching Strategies
+
+<Accordion title="Ephemeral Caching (Claude)">
+```yaml
+cache_control:
+  type: ephemeral
+```
+
+Used for:
+- Environment information
+- File directory listings
+- Repository context
+- Static documentation
+
+**Benefits**:
+- Reduced token costs
+- Faster response times
+- Consistent context
+</Accordion>
+
+<Accordion title="Conversation Pruning">
+```txt
+As conversations grow, older messages may be pruned to:
+- Stay within context limits
+- Reduce latency
+- Lower costs
+
+Critical information is retained:
+- User goals
+- Recent file changes
+- Active task state
+```
+</Accordion>
+
+## Streaming and Real-Time Updates
+
+Most tools support streaming responses:
+
+```javascript
+// Typical streaming implementation
+const stream = await model.streamCompletion({
+  messages: [...],
+  tools: [...],
+  stream: true
+});
+
+for await (const chunk of stream) {
+  if (chunk.type === 'content_block_delta') {
+    process(chunk.delta);
+  } else if (chunk.type === 'tool_use') {
+    executeTools(chunk.tools);
+  }
+}
+```
+
+**Advantages**:
+- Perceived faster responses
+- Progressive rendering
+- Early tool execution
+- Better user experience
+
+## Cost Optimization Patterns
+
+<CardGroup cols={2}>
+  <Card title="Minimize Reasoning" icon="gauge-high">
+    ```txt
+    MINIMIZE REASONING: Avoid verbose
+    reasoning blocks. Think efficiently
+    and act quickly.
+    ```
+    
+    Saves tokens by reducing explanation overhead.
+  </Card>
+  
+  <Card title="Parallel Execution" icon="arrows-split-up-and-left">
+    ```txt
+    Default to parallel for all independent work:
+    reads, searches, diagnostics, writes.
+    ```
+    
+    Reduces round trips and total conversation length.
+  </Card>
+  
+  <Card title="Tool Result Filtering" icon="filter">
+    ```txt
+    Results capped for responsiveness.
+    Output limited to 50000 characters.
+    Use head_limit to control size.
+    ```
+    
+    Prevents excessive token usage from large results.
+  </Card>
+  
+  <Card title="Aggressive Conciseness" icon="compress">
+    ```txt
+    Answer concisely with fewer than 4 lines.
+    One word answers are best.
+    ```
+    
+    Dramatically reduces output token costs.
+  </Card>
+</CardGroup>
+
+## Future Trends
+
+### Extended Context Windows
+
+Models are moving toward:
+- 1M+ token context windows
+- Better long-range coherence
+- Reduced need for pruning
+- Full repository context
+
+### Specialized Models
+
+Trend toward role-specific models:
+- **Fast models**: Quick responses, simple tasks
+- **Reasoning models**: Complex planning, reviews
+- **Code models**: Optimized for programming
+- **Multimodal models**: Code + diagrams + UI
+
+<Note>
+Model configurations are frequently updated. Check with your tool's documentation for the latest supported models and parameters.
+</Note>

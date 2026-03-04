@@ -1,0 +1,316 @@
+---
+title: "Cursor AI"
+description: "Cursor AI prompts, tools, and agent system details"
+---
+
+## Overview
+
+Cursor is an AI-powered code editor built on VS Code that operates on the AI Flow paradigm. It features both chat-based assistance and an autonomous agent mode powered by GPT-4.1 that can independently work through coding tasks.
+
+## Available Prompt Versions
+
+<Tabs>
+  <Tab title="Agent Prompt 2.0">
+    The primary agent system prompt used for autonomous coding tasks.
+
+    ### Key Capabilities
+
+    **Autonomous Operation**
+    - Agent mode that works independently until tasks are resolved
+    - Keeps going until user's query is completely resolved before ending turn
+    - Does not wait for user confirmation unless additional information is needed
+
+    **Context Awareness**
+    - Receives automatic context including open files, cursor position, recently viewed files
+    - Edit history and linter errors included in context
+    - System reminders provided in tool results
+
+    ### Core Tools
+
+    ```typescript
+    // Semantic search across codebase
+    codebase_search({
+      query: string,           // Complete question about code
+      target_directories: [],  // Single directory or empty for full repo
+      explanation: string
+    })
+    ```
+
+    **When to Use Codebase Search:**
+    - Explore unfamiliar codebases
+    - Ask "how/where/what" questions
+    - Find code by meaning, not exact text
+
+    **When NOT to Use:**
+    - Exact text matches (use `grep`)
+    - Reading known files (use `read_file`)
+    - Simple symbol lookups
+    - Finding files by name
+
+    ```typescript
+    // Fast text-based search using ripgrep
+    grep({
+      pattern: string,        // Regex pattern
+      path?: string,
+      glob?: string,         // e.g. "*.js", "*.{ts,tsx}"
+      output_mode?: "content" | "files_with_matches" | "count",
+      "-A"?: number,         // Lines after match
+      "-B"?: number,         // Lines before match
+      "-C"?: number,         // Lines before and after
+      multiline?: boolean
+    })
+    ```
+
+    ```typescript
+    // Read file contents
+    read_file({
+      target_file: string,
+      offset?: integer,      // Line number to start
+      limit?: integer        // Number of lines to read
+    })
+    ```
+
+    ```typescript
+    // Edit files with instructions
+    edit_file({
+      target_file: string,
+      instructions: string,  // Single sentence describing the edit
+      code_edit: string     // Use // ... existing code ... for unchanged sections
+    })
+    ```
+
+    ### Command Execution
+
+    ```typescript
+    run_terminal_cmd({
+      command: string,
+      is_background: boolean,
+      explanation?: string
+    })
+    ```
+
+    **Important Notes:**
+    - Commands may need user approval
+    - Shell state persists between commands
+    - Use non-interactive flags (e.g., `--yes` for npx)
+    - Run long-running processes in background
+
+    ### Task Management
+
+    ```typescript
+    todo_write({
+      merge: boolean,
+      todos: Array<{
+        content: string,
+        status: "pending" | "in_progress" | "completed" | "cancelled",
+        id: string
+      }>
+    })
+    ```
+
+    **When to Use Todo List:**
+    - Complex multi-step tasks (3+ steps)
+    - Non-trivial tasks requiring planning
+    - User provides multiple tasks
+    - After receiving new instructions
+
+    **When NOT to Use:**
+    - Single straightforward tasks
+    - Trivial tasks with < 3 steps
+    - Purely conversational requests
+
+    ### Additional Tools
+
+    - `delete_file`: Delete files safely
+    - `web_search`: Search the web for real-time information
+    - `update_memory`: Create/update/delete persistent memories
+    - `read_lints`: Read linter errors from workspace
+    - `edit_notebook`: Edit Jupyter notebook cells
+    - `list_dir`: List directory contents
+    - `glob_file_search`: Search files by glob pattern
+
+  </Tab>
+  <Tab title="Chat Prompt">
+    The chat-based assistant prompt for non-autonomous interactions.
+
+    ### Behavior
+
+    **Communication Style**
+    - Suggests edits rather than autonomously making them
+    - Shows simplified code blocks with context comments
+    - Uses `// ... existing code ...` to indicate unchanged sections
+    - Brief explanations of updates
+
+    **Code Display Format**
+    ```language:path/to/file
+    // ... existing code ...
+    {{ edit_1 }}
+    // ... existing code ...
+    {{ edit_2 }}
+    // ... existing code ...
+    ```
+
+    **Search and Reading**
+    - Prefers gathering information before suggesting edits
+    - Uses semantic search for understanding behavior
+    - Uses grep for exact symbol lookups
+    - Can read files with line ranges
+
+    ### Key Differences from Agent Mode
+
+    - **Not autonomous**: Waits for user approval
+    - **Explanatory**: Explains what changes are needed
+    - **Interactive**: User makes final decisions
+    - **Suggest vs. Execute**: Proposes changes rather than applying them
+
+  </Tab>
+</Tabs>
+
+## Agent vs Chat Mode
+
+| Feature | Agent Mode | Chat Mode |
+|---------|-----------|----------|
+| Autonomy | Fully autonomous | Interactive |
+| Execution | Directly applies edits | Suggests changes |
+| Task completion | Works until resolved | Waits for confirmation |
+| Best for | Complex multi-step tasks | Quick questions, guidance |
+
+## Code Editing Approach
+
+### Edit Instructions
+
+Cursor's edit system uses an "apply model" - a less intelligent model that applies edits based on instructions:
+
+```typescript
+edit_file({
+  target_file: "src/components/Button.tsx",
+  instructions: "Add a disabled prop to the Button component",
+  code_edit: `
+import React from 'react';
+
+// ... existing code ...
+
+interface ButtonProps {
+  label: string;
+  onClick: () => void;
+  disabled?: boolean;
+}
+
+// ... existing code ...
+
+export const Button = ({ label, onClick, disabled }: ButtonProps) => {
+  return (
+    <button onClick={onClick} disabled={disabled}>
+      {label}
+    </button>
+  );
+};
+  `
+})
+```
+
+**Key Principles:**
+- Use `// ... existing code ...` for unchanged sections
+- Provide sufficient context around edits
+- Clear, single-sentence instructions
+- Never specify unchanged code explicitly
+
+## Search Strategy
+
+### Semantic Search Workflow
+
+1. **Start Broad**: Begin with exploratory queries using empty `target_directories: []`
+2. **Review Results**: Identify relevant directories or files
+3. **Narrow Down**: Rerun search scoped to specific directories
+4. **Break Down**: Split large questions into smaller focused queries
+
+```typescript
+// Step 1: Broad exploration
+codebase_search({
+  query: "How does user authentication work?",
+  target_directories: [],
+  explanation: "Find auth flow"
+})
+
+// Step 2: Narrow to specific area
+codebase_search({
+  query: "Where are user roles checked?",
+  target_directories: ["backend/auth/"],
+  explanation: "Find role logic"
+})
+```
+
+### When to Use Each Search Tool
+
+**Codebase Search (Semantic)**
+- "How does X work?"
+- "What happens when Y?"
+- "Where is Z handled?"
+- Exploring unfamiliar code
+
+**Grep (Exact Text)**
+- Finding exact symbols: `AuthService`
+- Finding patterns: `function\s+\w+`
+- File type filtering: `--glob "*.ts"`
+- Line number results with context
+
+**File Search**
+- Finding files by name
+- Glob patterns: `*.config.js`
+
+## Memory System
+
+Cursor maintains persistent knowledge about preferences and context:
+
+```typescript
+update_memory({
+  title: "User prefers React hooks",
+  knowledge_to_store: "User prefers functional components with hooks over class components",
+  action: "create" | "update" | "delete",
+  existing_knowledge_id?: string
+})
+```
+
+**When to Create Memories:**
+- User explicitly asks to remember something
+- Important preferences discovered
+- Patterns in user's requests
+
+**When NOT to Create:**
+- Without user request for simple facts
+- Contradictory information (use delete instead)
+
+## Model Information
+
+- **Base Model**: GPT-4.1
+- **Knowledge Cutoff**: 2024-06
+- **Image Input**: Enabled
+- **Context**: Includes open files, cursor position, recent edits, linter errors
+
+## Best Practices
+
+### For Complex Tasks
+
+1. Use agent mode for multi-step tasks
+2. Start with `codebase_search` to understand context
+3. Create todo list for tracking (3+ steps)
+4. Read files before editing
+5. Run linter after edits
+6. Mark todos complete as you go
+
+### For Code Changes
+
+1. Gather context first
+2. Use clear, specific instructions
+3. Include sufficient surrounding context
+4. Use `// ... existing code ...` properly
+5. Run tests after changes
+6. Check linter errors with `read_lints`
+
+### For Debugging
+
+1. Use `codebase_search` to understand flow
+2. Use `grep` to find all references
+3. Read files with context (use `-A`, `-B`, `-C` flags)
+4. Check git history if needed
+5. Test changes locally before committing

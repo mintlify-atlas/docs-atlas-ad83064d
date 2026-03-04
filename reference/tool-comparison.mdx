@@ -1,0 +1,793 @@
+---
+title: Tool Capabilities Comparison
+description: Comprehensive comparison of tools and capabilities across AI coding assistants
+---
+
+# Tool Capabilities Comparison
+
+A detailed analysis of the tools, capabilities, and unique features available in different AI coding assistants.
+
+## Tools Overview by Category
+
+### File Operations
+
+| Tool | Cursor | Claude Code | Augment | Amp | Replit |
+|------|--------|-------------|---------|-----|--------|
+| **Read File** | ✅ read_file | ✅ Read | ✅ view | ✅ Read | Implicit |
+| **Edit File** | ✅ edit_file | ✅ Edit | ✅ str-replace-editor | ✅ edit_file | ✅ proposed_file_replace_substring |
+| **Create File** | ✅ edit_file | ✅ Write | ✅ save-file | ✅ create_file | ✅ proposed_file_insert |
+| **Delete File** | ✅ delete_file | ❌ | ✅ remove-files | ❌ | ❌ |
+| **List Directory** | ✅ list_dir | ✅ LS | ❌ | ✅ list_directory | Implicit |
+| **Glob/Pattern Match** | ✅ glob_file_search | ✅ Glob | ❌ | ✅ glob | ❌ |
+| **Multi-Edit** | ❌ | ✅ MultiEdit | ✅ str-replace-editor | ❌ | ❌ |
+
+### Search Capabilities
+
+| Tool | Cursor | Claude Code | Augment | Amp | Replit |
+|------|--------|-------------|---------|-----|--------|
+| **Semantic Search** | ✅ codebase_search | ✅ Task (agent) | ✅ codebase-retrieval | ✅ codebase_search_agent | ❌ |
+| **Text Search** | ✅ grep | ✅ Grep | ❌ | ✅ Grep | ❌ |
+| **File Search** | ✅ file_search | ❌ | ✅ view (with regex) | ❌ | ❌ |
+| **Fuzzy Search** | ✅ file_search | ❌ | ❌ | ❌ | ❌ |
+| **Git History** | ❌ | ❌ | ✅ git-commit-retrieval | ❌ | ❌ |
+
+### Execution & Terminal
+
+| Tool | Cursor | Claude Code | Augment | Amp | Replit |
+|------|--------|-------------|---------|-----|--------|
+| **Run Command** | ✅ run_terminal_cmd | ✅ Bash | ✅ launch-process | ✅ Bash | ✅ proposed_shell_command |
+| **Background Exec** | ✅ is_background | ✅ run_in_background | ✅ wait=false | ❌ | ❌ |
+| **Read Output** | ❌ | ✅ BashOutput | ✅ read-process | ❌ | ❌ |
+| **Write Input** | ❌ | ❌ | ✅ write-process | ❌ | ❌ |
+| **Kill Process** | ❌ | ✅ KillBash | ✅ kill-process | ❌ | ❌ |
+| **List Processes** | ❌ | ❌ | ✅ list-processes | ❌ | ❌ |
+
+### Diagnostics & Linting
+
+| Tool | Cursor | Claude Code | Augment | Amp | Replit |
+|------|--------|-------------|---------|-----|--------|
+| **Get Diagnostics** | ✅ read_lints | ❌ | ✅ diagnostics | ✅ get_diagnostics | ❌ |
+| **Format File** | ❌ | ❌ | ❌ | ✅ format_file | ❌ |
+
+### Web & External
+
+| Tool | Cursor | Claude Code | Augment | Amp | Replit |
+|------|--------|-------------|---------|-----|--------|
+| **Web Search** | ✅ web_search | ✅ WebSearch | ✅ web-search | ✅ web_search | ❌ |
+| **Fetch Web Page** | ❌ | ✅ WebFetch | ✅ web-fetch | ✅ read_web_page | ❌ |
+| **Open Browser** | ❌ | ❌ | ✅ open-browser | ❌ | ❌ |
+
+### Task Management
+
+| Tool | Cursor | Claude Code | Augment | Amp | Replit |
+|------|--------|-------------|---------|-----|--------|
+| **Create Todos** | ✅ todo_write | ✅ TodoWrite | ✅ add_tasks | ✅ todo_write | ❌ |
+| **Update Todos** | ✅ todo_write | ✅ TodoWrite | ✅ update_tasks | ✅ todo_write | ❌ |
+| **View Tasks** | ❌ | ❌ | ✅ view_tasklist | ✅ todo_read | ❌ |
+| **Reorganize** | ❌ | ❌ | ✅ reorganize_tasklist | ❌ | ❌ |
+
+### Advanced Features
+
+| Tool | Cursor | Claude Code | Augment | Amp | Replit |
+|------|--------|-------------|---------|-----|--------|
+| **Subagents** | ❌ | ✅ Task | ❌ | ✅ Task, Oracle | ❌ |
+| **Memory** | ✅ update_memory | ❌ | ✅ remember | ❌ | ❌ |
+| **Diagrams** | ✅ create_diagram | ❌ | ✅ render-mermaid | ✅ mermaid | ❌ |
+| **Notebooks** | ✅ edit_notebook | ✅ NotebookEdit | ❌ | ❌ | ❌ |
+| **MCP Resources** | ❌ | ❌ | ❌ | ✅ read_mcp_resource | ❌ |
+
+## Detailed Tool Comparisons
+
+### File Reading Capabilities
+
+<Tabs>
+  <Tab title="Cursor: read_file">
+    ```typescript
+    {
+      target_file: string,        // Relative or absolute path
+      offset?: integer,            // Line to start from
+      limit?: integer,             // Number of lines
+    }
+    ```
+    
+    **Features**:
+    - Can read images (PNG, JPG, etc.)
+    - Outputs with line numbers (1-indexed)
+    - Warns if file is empty
+    - Supports pagination for large files
+    
+    **Format**: `LINE_NUMBER|LINE_CONTENT`
+  </Tab>
+  
+  <Tab title="Claude Code: Read">
+    ```typescript
+    {
+      file_path: string,           // Absolute path only
+      offset?: number,             // Line offset
+      limit?: number,              // Lines to read
+    }
+    ```
+    
+    **Features**:
+    - Reads images (PNG, JPEG, GIF)
+    - Reads PDFs (page by page)
+    - Reads Jupyter notebooks
+    - Default 2000 line limit
+    - Truncates lines > 2000 chars
+    
+    **Format**: `cat -n` style with line numbers
+  </Tab>
+  
+  <Tab title="Augment: view">
+    ```typescript
+    {
+      path: string,                // Relative to workspace
+      type: 'file' | 'directory',
+      view_range?: [number, number], // Line range
+      search_query_regex?: string,   // Optional regex search
+      context_lines_before?: number,
+      context_lines_after?: number,
+    }
+    ```
+    
+    **Features**:
+    - Combined file and directory view
+    - Integrated regex search
+    - Contextual line display
+    - Directories show 2-level tree
+    
+    **Unique**: Search within read operation
+  </Tab>
+  
+  <Tab title="Amp: Read">
+    ```typescript
+    {
+      path: string,                // Absolute path
+      read_range?: [number, number] // [start, end] lines
+    }
+    ```
+    
+    **Features**:
+    - Reads images visually
+    - Default first 1000 lines
+    - Line numbers prefixed
+    - Parallel reading encouraged
+    
+    **Format**: `1: content` style
+  </Tab>
+</Tabs>
+
+### File Editing Approaches
+
+<AccordionGroup>
+  <Accordion title="Cursor: Sketch-Based (edit_file)">
+    **Philosophy**: High-level instructions with AI filling gaps
+    
+    ```typescript
+    {
+      target_file: string,
+      instructions: string,    // Single sentence description
+      code_edit: string,       // Sketch with "// ... existing code ..."
+    }
+    ```
+    
+    **Example**:
+    ```javascript
+    // ... existing code ...
+    function calculateTotal(items) {
+      return items.reduce((sum, item) => sum + item.price, 0);
+    }
+    // ... existing code ...
+    ```
+    
+    **Advantages**:
+    - Less verbose
+    - Faster to write
+    - AI interprets intent
+    
+    **Disadvantages**:
+    - Can misinterpret
+    - Less precise control
+    - May need reapply tool
+  </Accordion>
+  
+  <Accordion title="Claude Code: Exact Replacement (Edit)">
+    **Philosophy**: Precise string matching
+    
+    ```typescript
+    {
+      file_path: string,
+      old_string: string,      // Must match exactly
+      new_string: string,
+      replace_all?: boolean,   // Default: false
+    }
+    ```
+    
+    **Requirements**:
+    - Must read file first
+    - old_string must be unique (unless replace_all)
+    - Preserves indentation exactly
+    - Fails if not found
+    
+    **Advantages**:
+    - Predictable
+    - No ambiguity
+    - Explicit changes
+    
+    **Disadvantages**:
+    - Verbose for large changes
+    - Exact matching required
+    - More tokens
+  </Accordion>
+  
+  <Accordion title="Augment: Line-Scoped (str-replace-editor)">
+    **Philosophy**: Line numbers + exact matching
+    
+    ```typescript
+    {
+      command: 'str_replace',
+      path: string,
+      old_str_1: string,
+      new_str_1: string,
+      old_str_start_line_number_1: number,
+      old_str_end_line_number_1: number,
+      // Multiple edits: old_str_2, new_str_2, etc.
+    }
+    ```
+    
+    **Features**:
+    - Multiple edits in one call
+    - Line ranges for disambiguation
+    - Max 150 lines per edit
+    - Both line numbers INCLUSIVE
+    
+    **Advantages**:
+    - Handles multiple occurrences
+    - Clear scope
+    - Batch editing
+    
+    **Disadvantages**:
+    - More parameters
+    - Line number tracking
+    - Complexity increases
+  </Accordion>
+  
+  <Accordion title="Amp: Flexible (edit_file + create_file)">
+    **Philosophy**: Choose best tool for task
+    
+    ```typescript
+    // For targeted changes
+    edit_file({
+      path: string,
+      old_str: string,
+      new_str: string,
+      replace_all?: boolean
+    });
+    
+    // For full file replacement
+    create_file({
+      path: string,
+      content: string
+    });
+    ```
+    
+    **Strategy**:
+    - Whole file replace → create_file
+    - Small targeted change → edit_file
+    - Multiple similar changes → replace_all
+    
+    **Advantages**:
+    - Optimal for each scenario
+    - Less redundant content
+    - Flexible approach
+  </Accordion>
+</AccordionGroup>
+
+### Search Tool Architectures
+
+<Tabs>
+  <Tab title="Cursor: Multi-Modal Search">
+    **Architecture**: Specialized tools for different needs
+    
+    ```mermaid
+    graph LR
+        A[Search Need] --> B{Type?}
+        B -->|Semantic| C[codebase_search]
+        B -->|Exact Text| D[grep]
+        B -->|File Name| E[file_search]
+        B -->|Pattern| F[glob_file_search]
+    ```
+    
+    **codebase_search**: 
+    - Natural language queries
+    - "How does X work?"
+    - Conceptual understanding
+    
+    **grep**: 
+    - Regex patterns
+    - Exact symbol names
+    - Fast text search
+    
+    **file_search**: 
+    - Fuzzy filename matching
+    - Partial paths
+    - Quick file location
+  </Tab>
+  
+  <Tab title="Claude Code: Agent-Based">
+    **Architecture**: Delegate complex searches to subagent
+    
+    ```mermaid
+    graph TD
+        A[Search Request] --> B{Complexity?}
+        B -->|Simple| C[Grep directly]
+        B -->|Complex| D[Task Agent]
+        D --> E[Glob]
+        D --> F[Grep]
+        D --> G[Read]
+        D --> H[LS]
+        E --> I[Results]
+        F --> I
+        G --> I
+        H --> I
+    ```
+    
+    **Strategy**:
+    - Simple exact match → Grep
+    - Complex multi-step → Task agent
+    - Agent has access to: Glob, Grep, Read, LS
+  </Tab>
+  
+  <Tab title="Augment: Context Engine">
+    **Architecture**: Proprietary retrieval system
+    
+    ```mermaid
+    graph TD
+        A[Search] --> B[codebase-retrieval]
+        A --> C[git-commit-retrieval]
+        B --> D[Embedding Model]
+        C --> E[Git History]
+        D --> F[Real-time Index]
+        E --> F
+        F --> G[Ranked Results]
+    ```
+    
+    **codebase-retrieval**:
+    - Natural language queries
+    - Cross-language search
+    - Real-time indexing
+    - Current codebase state
+    
+    **git-commit-retrieval**:
+    - Historical changes
+    - Similar past modifications
+    - Commit context
+    - Pattern learning
+  </Tab>
+  
+  <Tab title="Amp: Hybrid + Oracle">
+    **Architecture**: Multiple strategies with AI advisor
+    
+    ```mermaid
+    graph TD
+        A[Task] --> B{Strategy}
+        B -->|Search| C[codebase_search_agent]
+        B -->|Planning| D[Oracle]
+        B -->|Execution| E[Task]
+        B -->|Exact| F[Grep]
+        
+        D --> G[o3 Reasoning]
+        G --> H[Guidance]
+    ```
+    
+    **codebase_search_agent**:
+    - Conceptual search
+    - Multi-step discovery
+    - Pattern finding
+    
+    **Oracle (o3)**:
+    - Architecture review
+    - Complex planning
+    - Debugging guidance
+  </Tab>
+</Tabs>
+
+### Execution and Process Management
+
+<CardGroup cols={2}>
+  <Card title="Cursor: Simple Command Execution">
+    ```typescript
+    run_terminal_cmd({
+      command: string,
+      is_background: boolean,
+      explanation?: string
+    })
+    ```
+    
+    **Features**:
+    - Background execution support
+    - Persistent shell between commands
+    - Automatic working directory handling
+    - Non-interactive flag warnings
+    
+    **Limitations**:
+    - No direct process management
+    - No input streaming
+    - No process listing
+  </Card>
+  
+  <Card title="Claude Code: Advanced Process Control">
+    ```typescript
+    // Run command
+    Bash({command, timeout?, run_in_background?})
+    
+    // Monitor output
+    BashOutput({bash_id, filter?})
+    
+    // Terminate
+    KillBash({shell_id})
+    ```
+    
+    **Features**:
+    - Background process monitoring
+    - Output filtering with regex
+    - Process lifecycle management
+    - Multiple shells
+    
+    **Use Cases**:
+    - Long-running servers
+    - Build processes
+    - Test watchers
+  </Card>
+  
+  <Card title="Augment: Full Process API">
+    ```typescript
+    // Launch
+    launch-process({command, wait, max_wait_seconds, cwd})
+    
+    // Read output
+    read-process({terminal_id, wait, max_wait_seconds})
+    
+    // Write input
+    write-process({terminal_id, input_text})
+    
+    // List all
+    list-processes()
+    
+    // Kill
+    kill-process({terminal_id})
+    ```
+    
+    **Features**:
+    - Waiting vs non-waiting processes
+    - Interactive process support
+    - Input streaming
+    - Complete terminal management
+    
+    **Most Powerful**: Full process interaction
+  </Card>
+  
+  <Card title="Amp: Streamlined Execution">
+    ```typescript
+    Bash({cmd, cwd?})
+    ```
+    
+    **Features**:
+    - Simple command execution
+    - Optional working directory
+    - Output capture
+    - Platform-aware (Windows/Linux)
+    
+    **Philosophy**: Keep it simple, avoid complexity
+  </Card>
+</CardGroup>
+
+## Unique Capabilities
+
+### Cursor-Specific
+
+<AccordionGroup>
+  <Accordion title="Memory System">
+    ```typescript
+    update_memory({
+      title?: string,
+      knowledge_to_store?: string,
+      action: 'create' | 'update' | 'delete',
+      existing_knowledge_id?: string
+    })
+    ```
+    
+    **Purpose**: Persistent knowledge across sessions
+    
+    **Use Cases**:
+    - User preferences
+    - Project-specific patterns
+    - Recurring decisions
+    - Codebase conventions
+    
+    **Example**:
+    ```typescript
+    update_memory({
+      action: 'create',
+      title: 'Test Framework',
+      knowledge_to_store: 'This project uses Vitest, not Jest'
+    })
+    ```
+  </Accordion>
+  
+  <Accordion title="Jupyter Notebook Support">
+    ```typescript
+    edit_notebook({
+      target_notebook: string,
+      cell_idx: number,
+      is_new_cell: boolean,
+      cell_language: string,
+      old_string: string,
+      new_string: string
+    })
+    ```
+    
+    **Features**:
+    - Edit existing cells
+    - Create new cells
+    - Delete cell content
+    - Support for multiple languages
+    - Handles markdown and code cells
+  </Accordion>
+</AccordionGroup>
+
+### Claude Code-Specific
+
+<AccordionGroup>
+  <Accordion title="Multi-Edit Support">
+    ```typescript
+    MultiEdit({
+      file_path: string,
+      edits: Array<{
+        old_string: string,
+        new_string: string,
+        replace_all?: boolean
+      }>
+    })
+    ```
+    
+    **Advantages**:
+    - Atomic operations (all or nothing)
+    - Sequential application
+    - Single tool call
+    - Efficient for multiple changes
+    
+    **Use Case**: Refactoring with multiple related changes
+  </Accordion>
+  
+  <Accordion title="Notebook Editing">
+    ```typescript
+    NotebookEdit({
+      notebook_path: string,
+      cell_id?: string,
+      new_source: string,
+      cell_type?: 'code' | 'markdown',
+      edit_mode?: 'replace' | 'insert' | 'delete'
+    })
+    ```
+    
+    **Features**:
+    - Cell-based editing
+    - Insert, replace, delete modes
+    - Markdown and code cells
+    - Cell ID tracking
+  </Accordion>
+</AccordionGroup>
+
+### Augment-Specific
+
+<AccordionGroup>
+  <Accordion title="Git History Integration">
+    ```typescript
+    git-commit-retrieval({
+      information_request: string
+    })
+    ```
+    
+    **Purpose**: Learn from historical changes
+    
+    **Examples**:
+    ```typescript
+    git-commit-retrieval({
+      information_request: "How were similar API endpoints added in the past?"
+    })
+    
+    git-commit-retrieval({
+      information_request: "What patterns were used for database migrations?"
+    })
+    ```
+    
+    **Benefits**:
+    - Consistent patterns
+    - Learn from history
+    - Avoid mistakes
+    - Follow conventions
+  </Accordion>
+  
+  <Accordion title="Advanced Terminal Management">
+    - **Multiple terminals**: Separate processes
+    - **Input streaming**: Interactive programs
+    - **Process listing**: See all active terminals
+    - **Waiting modes**: Synchronous or async
+    
+    **Use Case**: Complex build pipelines with multiple steps
+  </Accordion>
+</AccordionGroup>
+
+### Amp-Specific
+
+<AccordionGroup>
+  <Accordion title="Oracle System">
+    ```typescript
+    oracle({
+      task: string,
+      context?: string,
+      files?: string[]
+    })
+    ```
+    
+    **Powered by**: OpenAI o3 (reasoning model)
+    
+    **Use Cases**:
+    - Architecture reviews
+    - Complex debugging
+    - Performance analysis
+    - Planning implementations
+    
+    **Example**:
+    ```typescript
+    oracle({
+      task: "Review authentication system and suggest improvements",
+      context: "We're seeing race conditions in token refresh",
+      files: ["auth.ts", "token-manager.ts", "api-client.ts"]
+    })
+    ```
+  </Accordion>
+  
+  <Accordion title="MCP Resource Support">
+    ```typescript
+    read_mcp_resource({
+      server: string,
+      uri: string
+    })
+    ```
+    
+    **Purpose**: Access Model Context Protocol resources
+    
+    **Examples**:
+    - External file systems
+    - Database records
+    - API responses
+    - Cloud storage
+    
+    **Integration**: Extends context beyond local files
+  </Accordion>
+</AccordionGroup>
+
+### Replit-Specific
+
+<AccordionGroup>
+  <Accordion title="Workflow Configuration">
+    ```xml
+    <proposed_workflow_configuration 
+      workflow_name="dev"
+      set_run_button="true"
+      mode="sequential">
+    npm install
+    npm run dev
+    </proposed_workflow_configuration>
+    ```
+    
+    **Purpose**: Configure reusable commands
+    
+    **Features**:
+    - Run button integration
+    - Sequential or parallel modes
+    - Named workflows
+    - Dropdown selection
+  </Accordion>
+  
+  <Accordion title="Deployment Configuration">
+    ```xml
+    <proposed_deployment_configuration
+      build_command="npm run build"
+      run_command="npm start">
+    </proposed_deployment_configuration>
+    ```
+    
+    **Purpose**: Configure production deployment
+    
+    **Features**:
+    - Optional build step
+    - Production run command
+    - Integrated with Replit deployments
+  </Accordion>
+</AccordionGroup>
+
+## Capability Matrix
+
+### Editing Approaches
+
+| Feature | Cursor | Claude Code | Augment | Amp | Replit |
+|---------|--------|-------------|---------|-----|--------|
+| **Sketch-based** | ✅ Primary | ❌ | ❌ | ❌ | ❌ |
+| **Exact replacement** | ❌ | ✅ Primary | ✅ Primary | ✅ Primary | ✅ Primary |
+| **Line numbers** | ❌ | ❌ | ✅ | ❌ | ❌ |
+| **Multi-edit** | ❌ | ✅ | ✅ | ❌ | ❌ |
+| **Whole file** | Via edit_file | ✅ Write | ✅ save-file | ✅ create_file | ✅ proposed_file_replace |
+| **Replace all** | ❌ | ✅ | ❌ | ✅ | ❌ |
+
+### Process Management
+
+| Feature | Cursor | Claude Code | Augment | Amp | Replit |
+|---------|--------|-------------|---------|-----|--------|
+| **Background exec** | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **Output monitoring** | ❌ | ✅ | ✅ | ❌ | ❌ |
+| **Input streaming** | ❌ | ❌ | ✅ | ❌ | ❌ |
+| **Process list** | ❌ | ❌ | ✅ | ❌ | ❌ |
+| **Kill process** | ❌ | ✅ | ✅ | ❌ | ❌ |
+
+### Advanced Features
+
+| Feature | Cursor | Claude Code | Augment | Amp | Replit |
+|---------|--------|-------------|---------|-----|--------|
+| **Subagents** | ❌ | ✅ | ❌ | ✅ | ❌ |
+| **Memory/Learning** | ✅ | ❌ | ✅ | ❌ | ❌ |
+| **Git history** | ❌ | ❌ | ✅ | ❌ | ❌ |
+| **Reasoning model** | ❌ | ❌ | ❌ | ✅ (Oracle) | ❌ |
+| **Notebooks** | ✅ | ✅ | ❌ | ❌ | ❌ |
+| **MCP protocol** | ❌ | ❌ | ❌ | ✅ | ❌ |
+| **Diagrams** | ✅ | ❌ | ✅ | ✅ | ❌ |
+
+## Recommendation Guide
+
+<CardGroup cols={2}>
+  <Card title="Best for Complex Refactoring" icon="code">
+    **Winner**: Claude Code
+    
+    **Why**:
+    - MultiEdit for atomic changes
+    - Exact replacement prevents errors
+    - Process management for tests
+    - Task agents for discovery
+  </Card>
+  
+  <Card title="Best for Learning Codebases" icon="book">
+    **Winner**: Augment
+    
+    **Why**:
+    - Git history integration
+    - Powerful context engine
+    - Learn from past changes
+    - Cross-language search
+  </Card>
+  
+  <Card title="Best for Architecture Planning" icon="diagram-project">
+    **Winner**: Amp
+    
+    **Why**:
+    - Oracle (o3) for deep reasoning
+    - Mermaid diagrams
+    - Trade-off analysis
+    - Long-term planning
+  </Card>
+  
+  <Card title="Best for Quick Iterations" icon="bolt">
+    **Winner**: Cursor
+    
+    **Why**:
+    - Fast sketch-based editing
+    - Memory system learns preferences
+    - Autonomous task completion
+    - Thorough context gathering
+  </Card>
+</CardGroup>
+
+<Note>
+Tool capabilities evolve rapidly. This comparison reflects tools as of early 2026. Always consult official documentation for the most current feature set.
+</Note>
